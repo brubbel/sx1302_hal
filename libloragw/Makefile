@@ -18,27 +18,15 @@ INCLUDES = $(wildcard inc/*.h) $(wildcard ../libtools/inc/*.h)
 
 ### linking options
 
-LIBS := -lloragw -ltinymt32 -lrt -lm
+LIBS := -ltinymt32 -lrt -lm
 
 ### general build targets
 
-all: 	libloragw.a \
-		test_loragw_com \
-		test_loragw_i2c \
-		test_loragw_reg \
-		test_loragw_hal_tx \
-		test_loragw_hal_rx \
-		test_loragw_cal_sx125x \
-		test_loragw_capture_ram \
-		test_loragw_com_sx1250 \
-		test_loragw_com_sx1261 \
-		test_loragw_counter \
-		test_loragw_gps \
-		test_loragw_toa \
-		test_loragw_sx1261_rssi
+all: 	libloragw.so
 
 clean:
 	rm -f libloragw.a
+	rm -f libloragw.so
 	rm -f test_loragw_*
 	rm -f $(OBJDIR)/*.o
 	rm -f inc/config.h
@@ -96,11 +84,11 @@ $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o: src/%.c $(INCLUDES) inc/config.h | $(OBJDIR)
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -fPIC -c $(CFLAGS) $< -o $@
 
 ### static library
 
-libloragw.a: $(OBJDIR)/loragw_spi.o \
+libloragw.so: $(OBJDIR)/loragw_spi.o \
 			 $(OBJDIR)/loragw_usb.o \
 			 $(OBJDIR)/loragw_com.o \
 			 $(OBJDIR)/loragw_mcu.o \
@@ -128,7 +116,7 @@ libloragw.a: $(OBJDIR)/loragw_spi.o \
 			 $(OBJDIR)/loragw_sx1302_timestamp.o \
 			 $(OBJDIR)/loragw_sx1302_rx.o \
 			 $(OBJDIR)/loragw_ad5338r.o
-	$(AR) rcs $@ $^
+	$(CC) -L. -L../libtools -shared -fPIC -o $@ $^ $(LIBS)
 
 ### test programs
 
