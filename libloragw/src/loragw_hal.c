@@ -120,7 +120,7 @@ user that need to be propagated in the drivers.
 Parameters validity and coherency is verified by the _setconf functions and
 the _start and _send functions assume they are valid.
 */
-static lgw_context_t lgw_context = {
+extern lgw_context_t lgw_context = {
     .is_started = false,
     .board_cfg.com_type = LGW_COM_SPI,
     .board_cfg.com_path = "/dev/spidev0.0",
