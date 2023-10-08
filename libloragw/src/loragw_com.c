@@ -83,7 +83,7 @@ int lgw_com_open(lgw_com_type_t com_type, const char * com_path) {
             com_stat = lgw_spi_open(com_path, &_lgw_com_target);
             break;
         case LGW_COM_USB:
-            printf("Opening USB communication interface\n");
+            // printf("Opening USB communication interface\n");
             com_stat = lgw_usb_open(com_path, &_lgw_com_target);
             break;
         default:
@@ -111,7 +111,7 @@ int lgw_com_close(void) {
             com_stat = lgw_spi_close(_lgw_com_target);
             break;
         case LGW_COM_USB:
-            printf("Closing USB communication interface\n");
+            // printf("Closing USB communication interface\n");
             com_stat = lgw_usb_close(_lgw_com_target);
             break;
         default:

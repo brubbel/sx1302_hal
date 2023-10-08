@@ -429,7 +429,7 @@ int timestamp_counter_mode(bool ftime_enable) {
     int x = LGW_REG_SUCCESS;
 
     if (ftime_enable == false) {
-        printf("INFO: using legacy timestamp\n");
+        // printf("INFO: using legacy timestamp\n");
         /* Latch end-of-packet timestamp (sx1301 compatibility) */
         x |= lgw_reg_w(SX1302_REG_RX_TOP_RX_BUFFER_LEGACY_TIMESTAMP, 0x01);
     } else {

@@ -1187,7 +1187,7 @@ int lgw_connect(const lgw_com_type_t com_type, const char * com_path) {
         DEBUG_MSG("ERROR READING CHIP VERSION REGISTER\n");
         return LGW_REG_ERROR;
     }
-    printf("Note: chip version is 0x%02X (v%u.%u)\n", u, (u >> 4) & 0x0F, u & 0x0F) ;
+    // printf("Note: chip version is 0x%02X (v%u.%u)\n", u, (u >> 4) & 0x0F, u & 0x0F) ;
 
     DEBUG_MSG("Note: success connecting the concentrator\n");
     return LGW_REG_SUCCESS;

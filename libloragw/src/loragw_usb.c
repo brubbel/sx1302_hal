@@ -157,7 +157,7 @@ int lgw_usb_open(const char * com_path, void **com_target_ptr) {
     if (fd < 0) {
         printf("ERROR: failed to open COM port %s - %s\n", portname, strerror(errno));
     } else {
-        printf("INFO: Configuring TTY\n");
+        // printf("INFO: Configuring TTY\n");
         x = set_interface_attribs_linux(fd, B115200);
         if (x != 0) {
             printf("ERROR: failed to configure COM port %s\n", portname);
@@ -166,7 +166,7 @@ int lgw_usb_open(const char * com_path, void **com_target_ptr) {
         }
 
         /* flush tty port before setting it as blocking */
-        printf("INFO: Flushing TTY\n");
+        // printf("INFO: Flushing TTY\n");
         do {
             n = read(fd, &data, 1);
             if (n > 0) {
@@ -175,7 +175,7 @@ int lgw_usb_open(const char * com_path, void **com_target_ptr) {
         } while (n > 0);
 
         /* set tty port blocking */
-        printf("INFO: Setting TTY in blocking mode\n");
+        // printf("INFO: Setting TTY in blocking mode\n");
         x = set_blocking_linux(fd, true);
         if (x != 0) {
             printf("ERROR: failed to configure COM port %s\n", portname);
@@ -190,22 +190,22 @@ int lgw_usb_open(const char * com_path, void **com_target_ptr) {
         srand(0);
 
         /* Check MCU version (ignore first char of the received version (release/debug) */
-        printf("INFO: Connect to MCU\n");
+        // printf("INFO: Connect to MCU\n");
         if (mcu_ping(fd, &gw_info) != 0) {
             printf("ERROR: failed to ping the concentrator MCU\n");
             return LGW_USB_ERROR;
         }
-        if (strncmp(gw_info.version + 1, mcu_version_string, sizeof mcu_version_string) != 0) {
-            printf("WARNING: MCU version mismatch (expected:%s, got:%s)\n", mcu_version_string, gw_info.version);
-        }
-        printf("INFO: Concentrator MCU version is %s\n", gw_info.version);
+        // if (strncmp(gw_info.version + 1, mcu_version_string, sizeof mcu_version_string) != 0) {
+        //     printf("WARNING: MCU version mismatch (expected:%s, got:%s)\n", mcu_version_string, gw_info.version);
+        // }
+        // printf("INFO: Concentrator MCU version is %s\n", gw_info.version);
 
         /* Get MCU status */
-        if (mcu_get_status(fd, &mcu_status) != 0) {
-            printf("ERROR: failed to get status from the concentrator MCU\n");
-            return LGW_USB_ERROR;
-        }
-        printf("INFO: MCU status: sys_time:%u temperature:%.1foC\n", mcu_status.system_time_ms, mcu_status.temperature);
+        // if (mcu_get_status(fd, &mcu_status) != 0) {
+        //     printf("ERROR: failed to get status from the concentrator MCU\n");
+        //     return LGW_USB_ERROR;
+        // }
+        // printf("INFO: MCU status: sys_time:%u temperature:%.1foC\n", mcu_status.system_time_ms, mcu_status.temperature);
 
         /* Reset SX1302 */
         x  = mcu_gpio_write(fd, 0, 1, 1); /*   set PA1 : POWER_EN */

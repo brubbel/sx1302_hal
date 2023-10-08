@@ -1056,7 +1056,7 @@ int sx1302_lora_service_modem_configure(struct lgw_conf_rxif_s * cfg, uint32_t r
     } else {
         preamble_nb_symb = 8;
     }
-    printf("INFO: LoRa Service modem: configuring preamble size to %u symbols\n", preamble_nb_symb);
+    // printf("INFO: LoRa Service modem: configuring preamble size to %u symbols\n", preamble_nb_symb);
     err |= lgw_reg_w(SX1302_REG_RX_TOP_LORA_SERVICE_FSK_TXRX_CFG7_PREAMBLE_SYMB_NB, (preamble_nb_symb >> 8) & 0xFF); /* MSB */
     err |= lgw_reg_w(SX1302_REG_RX_TOP_LORA_SERVICE_FSK_TXRX_CFG6_PREAMBLE_SYMB_NB, (preamble_nb_symb >> 0) & 0xFF); /* LSB */
 
@@ -1827,7 +1827,7 @@ int sx1302_arb_start(uint8_t version, const struct lgw_conf_ftime_s * ftime_cont
 
     /* Enable/Disable double demod for different timing set (best timestamp / best demodulation) - 1 bit per SF (LSB=SF5, MSB=SF12) => 0:Disable 1:Enable */
     if (ftime_context->enable == false) {
-        printf("ARB: dual demodulation disabled for all SF\n");
+        // printf("ARB: dual demodulation disabled for all SF\n");
         sx1302_arb_debug_write(3, 0x00); /* double demod disabled for all SF */
     } else {
         if (ftime_context->mode == LGW_FTIME_MODE_ALL_SF) {
