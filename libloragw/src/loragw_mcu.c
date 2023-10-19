@@ -270,6 +270,7 @@ int read_ack(int fd, uint8_t * hdr, uint8_t * buf, size_t buf_size) {
 #if DEBUG_MCU == 1
     struct timeval read_tv;
 #endif
+    int retry = 0;
 
     /* Record function start time */
     _meas_time_start(&tm);
@@ -277,6 +278,10 @@ int read_ack(int fd, uint8_t * hdr, uint8_t * buf, size_t buf_size) {
     /* Read message header first, handle EINTR as it is a blocking call */
     do {
         n = read(fd, &hdr[0], (size_t)HEADER_CMD_SIZE);
+        retry++;
+        if (retry > 128) {
+            return -1;
+        }
     } while (n == -1 && errno == EINTR);
 
     if (n == -1) {
@@ -323,6 +328,10 @@ int read_ack(int fd, uint8_t * hdr, uint8_t * buf, size_t buf_size) {
             /* handle EINTR as it is a blocking call */
             do {
                 n = read(fd, &buf[nb_read], size - nb_read);
+                retry++;
+                if (retry > 128) {
+                    return -1;
+                }
             } while (n == -1 && errno == EINTR);
 
             if (n == -1) {
